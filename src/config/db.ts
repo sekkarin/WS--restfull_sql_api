@@ -1,0 +1,8 @@
+export const config= {
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database:'my_db'
+}
+
+  
