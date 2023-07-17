@@ -1,6 +1,6 @@
 import { connection as sql } from '../db/db'
 import { RestauantInterface } from '../types/Restauant'
-import { stringify} from 'circular-json'
+
 
 export const create = (newRestaurant: RestauantInterface) => sql.query(
     `INSERT INTO restaurant (id, name, type, imgUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`,
