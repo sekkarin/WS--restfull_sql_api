@@ -1,0 +1,23 @@
+npm init -y สร้าง package.json
+npm install express cors mysql
+npm i  express cors mysql
+node index.js
+nodemon index.js
+
+require() คืออะไร
+คำตอบคือ 1234
+app.use() คืออะไร
+
+app.get('/',(req,res) =>{}) คือหน้าไหน
+
+app.listen() คืออะไร
+
+config/db.js เอาไว้ทำอะไร
+
+db/db.js เอาไว้ทำอะไร
+
+วิธีการสร้าง scripts ของตัวเอาเอง
+1
+2
+3
+4
