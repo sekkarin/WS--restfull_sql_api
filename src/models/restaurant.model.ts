@@ -14,5 +14,5 @@ export const getAll = () => sql.query(
         if (error) throw error;
     
         // console.log(stringify(results) );
-        return stringify(results) 
+        return results
     })
