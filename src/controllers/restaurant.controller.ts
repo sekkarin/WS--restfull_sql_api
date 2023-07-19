@@ -1,75 +1,99 @@
 import { Response, Request } from 'express'
-import { create, getAll } from '../models/restaurant.model'
-import { connection as sql } from '../db/db'
+import { PrismaClient } from '@prisma/client'
 
-export const inserRetuarants = (req: Request, res: Response) => {
-    const newRestaurants = create({
-        type: req.body.type,
-        imgUrl: req.body.imgUrl,
-        name: req.body.name,
-    })
-    if (newRestaurants) {
+const prisma = new PrismaClient()
 
-        res.status(200).json({ message: "insert Successfully" })
+export const inserRetuarants = async (req: Request, res: Response) => {
+    const { name, imageUrl, type } = req.body
+    try {
+        if (!name && !imageUrl && !type) {
+            res.status(400).json({ message: "not data" })
+        }
+        await prisma.restaurant.create({
+            data: {
+                name: name,
+                imageUrl: imageUrl,
+                type: type
+            },
+        }).then(result => {
+            res.status(201).json(result)
+        })
+    } catch (error) {
+        console.log(error);
+
+    }
+
+}
+export const getRetuarants = async (req: Request, res: Response) => {
+    try {
+        await prisma.restaurant.findMany()
+            .then(result => {
+                res.status(200).json(result)
+            })
+    } catch (error) {
+        console.log(error);
     }
 }
-export const getRetuarants = (req: Request, res: Response) => {
-    sql.query(
-        "SELECT * FROM `restaurant` WHERE 1",
-        (error, results, fields) => {
-            if (error) {
-                res.status(200).json({ error: error.stack })
-                throw error
-            }
-            res.status(200).json({ message: "insert Successfully", "restuants": results })
-        })
-}
-export const getRetuarantById = (req: Request, res: Response) => {
+export const getRetuarantById = async (req: Request, res: Response) => {
     const { id } = req.params
-    sql.query(
-        "SELECT * FROM `restaurant` WHERE id = ?", [id],
-        (error, results, fields) => {
-            if (error) {
-                res.status(200).json({ error: error.stack })
-                throw error
+    try {
+        if (!id) {
+            res.status(404).json({ message: "Invalid request" })
+        }
+        await prisma.restaurant.findMany({
+            where: {
+                id: parseInt(id),
             }
-            res.status(200).json({ message: "insert Successfully", "restuants": results })
         })
-}
-export const updateRetuarantById = (req: Request, res: Response) => {
-    const { id } = req.params
-    const { name, type, imgUrl } = req.body
-    if (!id){
-        res.sendStatus(404)
+            .then(result => {
+                res.status(200).json(result)
+            })
+    } catch (error) {
+        console.log(error);
     }
-    sql.query(
-        "UPDATE `restaurant` SET `name` = ?, `type` = ?, `imgUrl` = ? WHERE `restaurant`.`id` = ?",
-        [name, type, imgUrl, id],
-        (error, results, fields) => {
-            if (error) {
-                res.status(200).json({ error: error.stack })
-                throw error
-            }
-            if (results.affectedRows == 0) {
-                throw new Error("not_found")
-            }
-            res.status(200).json({ message: results.message })
-        })
 }
-export const deleteRetuarantById = (req: Request, res: Response) => {
+export const updateRetuarantById = async (req: Request, res: Response) => {
     const { id } = req.params
-    if (!id){
-        res.sendStatus(404)
-    }
-    sql.query(
-        "DELETE FROM `restaurant` WHERE `restaurant`.`id` = ?", [id],
-        (error, results, fields) => {
-            if (error) {
-                res.status(403).json({ error: error.stack })
+    const { name, type, imageUrl } = req.body
+    try {
+        if (!id) {
+            res.status(404).json({ message: "Invalid request" })
+        }
+        if (!name && !imageUrl && !type) {
+            res.status(400).json({ message: "not data" })
+        }
+        await prisma.restaurant.update({
+            where: {
+                id: parseInt(id),
+            },
+            data: {
+                imageUrl: imageUrl,
+                type: type,
+                name: name
             }
-            if (results.affectedRows == 0) {
-                res.status(400).json({ error: "can't delete id " + id })
-            }
-            res.status(200).json({ message: "deleted successfully" })
         })
+            .then(result => {
+                res.status(200).json(result)
+            })
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const deleteRetuarantById = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        if (!id) {
+            res.sendStatus(404)
+        }
+        await prisma.restaurant.delete({
+            where: {
+                id: parseInt(id),
+            },
+        })
+            .then(result => {
+                res.status(200).json(result)
+            })
+    } catch (error) {
+        console.log(error);
+    }
 }
