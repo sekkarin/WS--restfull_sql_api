@@ -39,7 +39,9 @@ export const getRetuarantById = (req: Request, res: Response) => {
 export const updateRetuarantById = (req: Request, res: Response) => {
     const { id } = req.params
     const { name, type, imgUrl } = req.body
-    // UPDATE `restaurant` SET `name` = 'ken', `type` = '123', `imgUrl` = '123' WHERE `restaurant`.`id` = 4;
+    if (!id){
+        res.sendStatus(404)
+    }
     sql.query(
         "UPDATE `restaurant` SET `name` = ?, `type` = ?, `imgUrl` = ? WHERE `restaurant`.`id` = ?",
         [name, type, imgUrl, id],
@@ -56,7 +58,9 @@ export const updateRetuarantById = (req: Request, res: Response) => {
 }
 export const deleteRetuarantById = (req: Request, res: Response) => {
     const { id } = req.params
-
+    if (!id){
+        res.sendStatus(404)
+    }
     sql.query(
         "DELETE FROM `restaurant` WHERE `restaurant`.`id` = ?", [id],
         (error, results, fields) => {
