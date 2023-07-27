@@ -20,9 +20,7 @@ export const inserRetuarants = async (req: Request, res: Response) => {
         })
     } catch (error) {
         console.log(error);
-
     }
-
 }
 export const getRetuarants = async (req: Request, res: Response) => {
     try {

@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "npx nodemon",
+    "dev": "npx nodemon ",
     "studio":"npx prisma studio",
     "migration":"npx prisma migrate dev",
-    "resetdb":"npx prisma migrate reset"
+    "resetdb":"npx prisma migrate reset",
+    "startDocker": "docker-compose up -d"
   },
   "keywords": [],
   "author": "",
