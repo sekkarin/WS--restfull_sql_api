@@ -38,7 +38,7 @@ export const getRetuarantById = async (req: Request, res: Response) => {
         if (!id) {
             res.status(404).json({ message: "Invalid request" })
         }
-        await prisma.restaurant.findMany({
+        await prisma.restaurant.findFirst({
             where: {
                 id: parseInt(id),
             }
@@ -53,22 +53,20 @@ export const getRetuarantById = async (req: Request, res: Response) => {
 export const updateRetuarantById = async (req: Request, res: Response) => {
     const { id } = req.params
     const { name, type, imageUrl } = req.body
+    console.log(req.body);
+    
     try {
         if (!id) {
             res.status(404).json({ message: "Invalid request" })
         }
-        if (!name && !imageUrl && !type) {
-            res.status(400).json({ message: "not data" })
-        }
+        // if (!name && !imageUrl && !type) {
+        //     res.status(400).json({ message: "not data" })
+        // }
         await prisma.restaurant.update({
             where: {
                 id: parseInt(id),
             },
-            data: {
-                imageUrl: imageUrl,
-                type: type,
-                name: name
-            }
+            data: req.body
         })
             .then(result => {
                 res.status(200).json(result)
