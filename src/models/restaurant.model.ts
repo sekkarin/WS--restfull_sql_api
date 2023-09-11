@@ -9,7 +9,7 @@ export const create = (newRestaurant: RestauantInterface) => sql.query(
         return true;
     })
 export const getAll = () => sql.query(
-    "SELECT * FROM Restaurant WHERE",
+    "SELECT * FROM Restaurant WHERE '1'",
     (error, results, fields) => {
         if (error) throw error;
     
