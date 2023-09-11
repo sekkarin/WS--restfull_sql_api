@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAll = exports.create = void 0;
 const db_1 = require("../db/db");
-const create = (newRestaurant) => db_1.connection.query(`INSERT INTO 'Restaurant' (id, name, type, imageUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`, (error, results, fields) => {
+const create = (newRestaurant) => db_1.connection.query(`INSERT INTO Restaurant (id, name, type, imageUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`, (error, results, fields) => {
     if (error)
         throw error;
     return true;

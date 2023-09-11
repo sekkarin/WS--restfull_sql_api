@@ -3,7 +3,7 @@ import { RestauantInterface } from '../types/Restauant'
 
 
 export const create = (newRestaurant: RestauantInterface) => sql.query(
-    `INSERT INTO 'Restaurant' (id, name, type, imageUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`,
+    `INSERT INTO Restaurant (id, name, type, imageUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`,
     (error, results, fields) => {
         if (error) throw error;
         return true;
