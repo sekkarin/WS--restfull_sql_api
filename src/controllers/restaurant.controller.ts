@@ -18,7 +18,7 @@ export const inserRetuarants = (req: Request, res: Response) => {
 // VALUES(0, '', '', '', CURRENT_TIMESTAMP(3));
 export const getRetuarants = (req: Request, res: Response) => {
     sql.query(
-        "SELECT * FROM `se_database.Restaurant` WHERE 1",
+        "SELECT * FROM `Restaurant` WHERE 1",
         (error, results, fields) => {
             if (error) {
                 res.status(200).json({ error: error.stack })
@@ -30,7 +30,7 @@ export const getRetuarants = (req: Request, res: Response) => {
 export const getRetuarantById = (req: Request, res: Response) => {
     const { id } = req.params
     sql.query(
-        "SELECT * FROM `se_database.Restaurant` WHERE id = ?", [id],
+        "SELECT * FROM `Restaurant` WHERE id = ?", [id],
         (error, results, fields) => {
             if (error) {
                 res.status(200).json({ error: error.stack })
@@ -44,7 +44,7 @@ export const updateRetuarantById = (req: Request, res: Response) => {
     const { name, type, imgUrl } = req.body
     // UPDATE `restaurant` SET `name` = 'ken', `type` = '123', `imgUrl` = '123' WHERE `restaurant`.`id` = 4;
     sql.query(
-        "UPDATE `se_database.Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `restaurant`.`id` = ?",
+        "UPDATE `Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `restaurant`.`id` = ?",
         [name, type, imgUrl, id],
         (error, results, fields) => {
             if (error) {
@@ -61,7 +61,7 @@ export const deleteRetuarantById = (req: Request, res: Response) => {
     const { id } = req.params
 
     sql.query(
-        "DELETE FROM `se_database.Restaurant` WHERE `restaurant`.`id` = ?", [id],
+        "DELETE FROM `Restaurant` WHERE `restaurant`.`id` = ?", [id],
         (error, results, fields) => {
             if (error) {
                 res.status(403).json({ error: error.stack })
