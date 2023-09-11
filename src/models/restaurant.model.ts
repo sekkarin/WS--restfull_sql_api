@@ -3,13 +3,13 @@ import { RestauantInterface } from '../types/Restauant'
 
 
 export const create = (newRestaurant: RestauantInterface) => sql.query(
-    `INSERT INTO restaurant (id, name, type, imgUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`,
+    `INSERT INTO se_database.Restaurant (id, name, type, imageUrl) VALUES (NULL,'${newRestaurant.name}','${newRestaurant.type}','${newRestaurant.imgUrl}')`,
     (error, results, fields) => {
         if (error) throw error;
         return true;
     })
 export const getAll = () => sql.query(
-    "SELECT * FROM `restaurant` WHERE 1",
+    "SELECT * FROM `se_database.Restaurant` WHERE 1",
     (error, results, fields) => {
         if (error) throw error;
     
