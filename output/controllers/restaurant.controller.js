@@ -42,7 +42,7 @@ const updateRetuarantById = (req, res) => {
     const { id } = req.params;
     const { name, type, imgUrl } = req.body;
     // UPDATE `restaurant` SET `name` = 'ken', `type` = '123', `imgUrl` = '123' WHERE `restaurant`.`id` = 4;
-    db_1.connection.query("UPDATE `Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `restaurant`.`id` = ?", [name, type, imgUrl, id], (error, results, fields) => {
+    db_1.connection.query("UPDATE `Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `Restaurant`.`id` = ?", [name, type, imgUrl, id], (error, results, fields) => {
         if (error) {
             res.status(200).json({ error: error.stack });
             throw error;
@@ -56,7 +56,7 @@ const updateRetuarantById = (req, res) => {
 exports.updateRetuarantById = updateRetuarantById;
 const deleteRetuarantById = (req, res) => {
     const { id } = req.params;
-    db_1.connection.query("DELETE FROM `Restaurant` WHERE `restaurant`.`id` = ?", [id], (error, results, fields) => {
+    db_1.connection.query("DELETE FROM `Restaurant` WHERE `Restaurant`.`id` = ?", [id], (error, results, fields) => {
         if (error) {
             res.status(403).json({ error: error.stack });
         }

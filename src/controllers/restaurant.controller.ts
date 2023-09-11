@@ -44,7 +44,7 @@ export const updateRetuarantById = (req: Request, res: Response) => {
     const { name, type, imgUrl } = req.body
     // UPDATE `restaurant` SET `name` = 'ken', `type` = '123', `imgUrl` = '123' WHERE `restaurant`.`id` = 4;
     sql.query(
-        "UPDATE `Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `restaurant`.`id` = ?",
+        "UPDATE `Restaurant` SET `name` = ?, `type` = ?, `imageUrl` = ? WHERE `Restaurant`.`id` = ?",
         [name, type, imgUrl, id],
         (error, results, fields) => {
             if (error) {
@@ -61,7 +61,7 @@ export const deleteRetuarantById = (req: Request, res: Response) => {
     const { id } = req.params
 
     sql.query(
-        "DELETE FROM `Restaurant` WHERE `restaurant`.`id` = ?", [id],
+        "DELETE FROM `Restaurant` WHERE `Restaurant`.`id` = ?", [id],
         (error, results, fields) => {
             if (error) {
                 res.status(403).json({ error: error.stack })
