@@ -1,8 +1,11 @@
 import cors from 'cors'
 import express, { Request, Response } from "express"
+
 import { connection } from './db/db'
 import routers from './routers'
+
 import path from 'path'
+
 const app = express()
 
 app.use(cors())

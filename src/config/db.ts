@@ -1,8 +1,8 @@
 export const config= {
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database:'my_db'
+    host     : 'db',
+    user     : 'postgres',
+    password : 'example',
+    database:'restaurant'
 }
 
   
