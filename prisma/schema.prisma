@@ -22,25 +22,26 @@ model User {
   id       Int        @id @default(autoincrement())
   userName String
   email    String
-  UserRols UserRols[]
-
+  UserRoles UserRoles[]
+  password String 
+  refreshToken String? @default(" ")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Roles {
-  id       Int        @id @default(autoincrement())
-  roleName String
-  UserRols UserRols[]
-
+  id        Int      @id @default(autoincrement())
+  roleName  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  UserRols UserRoles[]
 }
 
-model UserRols {
+model UserRoles {
   id     Int   @id @default(autoincrement())
   user   User  @relation(fields: [userId], references: [id])
-  role   Roles @relation(fields: [roleId], references: [id])
+  roles  Roles @relation(fields: [roleId], references: [id])
   userId Int
   roleId Int
 }

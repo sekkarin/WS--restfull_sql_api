@@ -1,7 +1,9 @@
 import { Router } from "express";
-import RestaurantRouter from "./Restaurant.router";
-const router = Router()
-export default ():Router =>{
-    RestaurantRouter(router)
-    return router;
-}
+import restaurantRouter from "./restaurant.router";
+import authenticationRouter from "./authentication.route";
+const router = Router();
+export default (): Router => {
+  restaurantRouter(router);
+  authenticationRouter(router);
+  return router;
+};
