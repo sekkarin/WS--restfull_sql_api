@@ -5,11 +5,11 @@ export interface UserReq {
 
 
 export interface RolesReq {
-  roles: string[];
+  roles: number[];
 }
 declare module "express-serve-static-core" {
   interface Request {
     user?: UserReq;
-    roles?: RolesReq;
+    roles?: number[];
   }
 }

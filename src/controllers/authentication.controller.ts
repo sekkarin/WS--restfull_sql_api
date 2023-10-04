@@ -33,7 +33,7 @@ export const login = async (
         roleId: true,
       },
     });
-    console.log(userRoles);
+    const rolesArray = userRoles.map((role) => role.roleId);
 
     const pwdCompare = await bcrypt.compare(password, findUser.password);
 
@@ -44,11 +44,11 @@ export const login = async (
           userName: findUser.userName,
           id: findUser.id,
         },
-        roles: userRoles.map((item) => item.roleId),
+        roles: rolesArray,
       },
       process.env.SECRET_KEY_ACCESS_TOKEN as string,
       {
-        expiresIn: "1day",
+        expiresIn: "30s",
       }
     );
     const refreshToken = jwt.sign(
@@ -64,10 +64,10 @@ export const login = async (
       }
     );
     res.cookie("refreshToken", refreshToken, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       sameSite: "none",
-      secure: true,
+      secure: true, // prod needed!
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in ms unit
     });
     await prisma.user.update({
       where: {
@@ -140,9 +140,55 @@ fields are provided in the request body before proceeding with the registration 
     next(error);
   }
 };
-export const refreshToken = (req: Request, res: Response) => {
-  res.status(200);
+export const refreshToken = async (req: Request, res: Response) => {
+  const cookies = req.cookies;
+
+  if (!cookies.refreshToken) {
+    return res.sendStatus(403);
+  }
+  const findUser = await prisma.user.findFirst({
+    where: {
+      refreshToken: cookies.refreshToken,
+    },
+  });
+  if (!findUser) {
+    return res.sendStatus(403);
+  }
+  const roles = await prisma.userRoles.findMany({
+    where: {
+      userId: findUser?.id,
+    },
+  });
+  const rolesArray = roles.map((role) => role.roleId);
+
+  const accessToken = jwt.sign(
+    {
+      info: {
+        userName: findUser?.userName,
+        id: findUser?.id,
+      },
+      roles: rolesArray,
+    },
+    process.env.SECRET_KEY_ACCESS_TOKEN as string,
+    {
+      expiresIn: "30s",
+    }
+  );
+  res.status(200).json({ accessToken });
 };
-export const logout = (req: Request, res: Response) => {
-  res.status(200);
+export const logout = async (req: Request, res: Response) => {
+  const user = req.user;
+  const logout = await prisma.user.update({
+    where: {
+      id: user?.id,
+    },
+    data: {
+      refreshToken: "",
+    },
+  });
+  if (!logout) {
+    res.status(403);
+  }
+  res.clearCookie("refreshToken");
+  res.status(200).json({ message: "logout's" });
 };
