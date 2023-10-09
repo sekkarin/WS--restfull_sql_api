@@ -15,6 +15,8 @@ export const login = async (
   next: NextFunction
 ) => {
   const { username, password } = req.body;
+  // console.log(req.body);
+  
   if (!username || !password) {
     res.sendStatus(403);
   }
@@ -92,6 +94,9 @@ checks if any of these values are falsy (empty or undefined). If any of these va
 sends a 403 Forbidden status code as a response. This is likely used to ensure that all required
 fields are provided in the request body before proceeding with the registration process. */
   const { username, password, email } = req.body;
+  console.log(req.body);
+  
+
   if (!username || !password || !email) {
     res.sendStatus(403);
   }
@@ -176,19 +181,30 @@ export const refreshToken = async (req: Request, res: Response) => {
   );
   res.status(200).json({ accessToken });
 };
-export const logout = async (req: Request, res: Response) => {
-  const user = req.user;
-  const logout = await prisma.user.update({
-    where: {
-      id: user?.id,
-    },
-    data: {
-      refreshToken: "",
-    },
-  });
-  if (!logout) {
-    res.status(403);
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = req.user;
+    console.log(user);
+
+    const logout = await prisma.user.update({
+      where: {
+        id: user?.id,
+      },
+      data: {
+        refreshToken: "",
+      },
+    });
+    if (!logout) {
+      res.status(403);
+    }
+    res.clearCookie("refreshToken");
+    res.status(200).json({ message: "logout's" });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
-  res.clearCookie("refreshToken");
-  res.status(200).json({ message: "logout's" });
 };

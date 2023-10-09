@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { PrismaClient } from "@prisma/client";
+import { NextFunction } from "express-serve-static-core";
 
 const prisma = new PrismaClient();
 
@@ -52,7 +53,11 @@ export const getRestaurantById = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
-export const updateRestaurantById = async (req: Request, res: Response) => {
+export const updateRestaurantById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
 
   try {
@@ -71,6 +76,7 @@ export const updateRestaurantById = async (req: Request, res: Response) => {
       });
   } catch (error) {
     console.log(error);
+    next(error);
   }
 };
 export const deleteRestaurantById = async (req: Request, res: Response) => {
