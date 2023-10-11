@@ -11,7 +11,7 @@
     "migrationCreate": "npx prisma migrate dev --create-only ",
     "reset": "npx prisma migrate reset",
     "startDocker": "docker-compose up -d",
-    "start":"node ./dist/index.js"
+    "start":"node ./dist/src/index.js"
   },
   "keywords": [],
   "author": "",
