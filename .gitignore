@@ -3,3 +3,4 @@ package-lock.json
 mysql/mysql.sock
 mysql
 postgres
+.env

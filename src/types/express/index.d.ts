@@ -3,7 +3,6 @@ export interface UserReq {
   id: number;
 }
 
-
 export interface RolesReq {
   roles: number[];
 }
