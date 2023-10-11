@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cors_1 = __importDefault(require("cors"));
+// import cors from "cors";
 const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const routers_1 = __importDefault(require("./routers"));
@@ -21,40 +21,18 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("../swagger.json"));
 const port = process.env.PORT || 3000;
 const app = (0, express_1.default)();
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
-//   res.header(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   next();
-// });
-// const allowedOrigins = ["http://127.0.0.1:5173", "*"];
-app.use((0, cors_1.default)({
-    credentials: true,
-    origin: ["*"],
-    optionsSuccessStatus: 200,
-}));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 // app.use(
 //   cors({
-//     origin: function (origin, callback) {
-//       // allow requests with no origin
-//       // (like mobile apps or curl requests)
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.indexOf(origin) === -1) {
-//         var msg =
-//           "The CORS policy for this site does not " +
-//           "allow access from the specified Origin.";
-//         return callback(new Error(msg), false);
-//       }
-//       return callback(null, true);
-//     },
 //     credentials: true,
+//     origin: ["*"],
+//     optionsSuccessStatus: 200,
 //   })
 // );
 app.use((0, cookie_parser_1.default)());
