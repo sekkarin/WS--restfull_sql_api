@@ -19,22 +19,54 @@ const routers_1 = __importDefault(require("./routers"));
 const path_1 = __importDefault(require("path"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("../swagger.json"));
+const port = process.env.PORT || 3000;
 const app = (0, express_1.default)();
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+//   res.header(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
+// const allowedOrigins = ["http://127.0.0.1:5173", "*"];
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: ["http://127.0.0.1:5173"],
+    origin: ["*"],
     optionsSuccessStatus: 200,
 }));
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // allow requests with no origin
+//       // (like mobile apps or curl requests)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         var msg =
+//           "The CORS policy for this site does not " +
+//           "allow access from the specified Origin.";
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
+//     credentials: true,
+//   })
+// );
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, routers_1.default)());
-app.use('/api-docs', swagger_ui_express_1.default.serve);
-app.get('/api-docs', swagger_ui_express_1.default.setup(swagger_json_1.default));
+app.use("/api-docs", swagger_ui_express_1.default.serve);
+app.get("/api-docs", swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.get("*", (req, res) => {
     res.sendFile(path_1.default.join(__dirname + "/views/404.html"));
 });
-app.listen(3030, () => __awaiter(void 0, void 0, void 0, function* () {
+app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("server listening on port 3030 http://localhost:3030");
     // await prisma.$disconnect()
 }));

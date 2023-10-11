@@ -13,28 +13,28 @@ const port = process.env.PORT || 3000
 
 
 const app = express();
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+//   res.header(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 // const allowedOrigins = ["http://127.0.0.1:5173", "*"];
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: ["*"],
-//     optionsSuccessStatus: 200,
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: ["*"],
+    optionsSuccessStatus: 200,
+  })
+);
 // app.use(
 //   cors({
 //     origin: function (origin, callback) {
