@@ -1,12 +1,14 @@
 import cors from "cors";
-import express, { Request, Response } from "express";
+import express, { Request, Response ,NextFunction} from "express";
 import cookieParser from "cookie-parser";
 import routers from "./routers";
 import path from "path";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
-import { NextFunction } from "express-serve-static-core";
+
+
+const port = process.env.PORT || 3000
 
 const app = express();
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -61,7 +63,7 @@ app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname + "/views/404.html"));
 });
 
-app.listen(3030, async () => {
+app.listen(port, async () => {
   console.log("server listening on port 3030 http://localhost:3030");
   // await prisma.$disconnect()
 });
