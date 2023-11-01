@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["*"],
+    origin: ["*","http://127.0.0.1:5173"],
     optionsSuccessStatus: 200,
   })
 );
@@ -49,6 +49,6 @@ app.get("*", (req: Request, res: Response) => {
 });
 
 app.listen(port, async () => {
-  console.log("server listening on port 3030 http://localhost:3030");
+  console.log("server listening  http://localhost:" + port);
   // await prisma.$disconnect()
 });

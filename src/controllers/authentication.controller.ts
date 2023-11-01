@@ -16,7 +16,7 @@ export const login = async (
 ) => {
   const { username, password } = req.body;
   // console.log(req.body);
-  
+
   if (!username || !password) {
     res.sendStatus(403);
   }
@@ -95,7 +95,6 @@ sends a 403 Forbidden status code as a response. This is likely used to ensure t
 fields are provided in the request body before proceeding with the registration process. */
   const { username, password, email } = req.body;
   console.log(req.body);
-  
 
   if (!username || !password || !email) {
     res.sendStatus(403);
